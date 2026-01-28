@@ -56,7 +56,6 @@ public class Main {
     private static int getNaturalNumber(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter a natural number:");
-        int number = sc.nextInt();
-        return number;
+        return sc.nextInt();
     }
 }
