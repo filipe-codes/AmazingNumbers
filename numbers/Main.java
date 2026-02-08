@@ -140,6 +140,7 @@ public class Main {
             if (isGapful(i)) properties.add("gapful");
             if (isSpy(i)) properties.add("spy");
             if (isSunny(i)) properties.add("sunny");
+            if (isSquare(i)) properties.add("square");
             if (isEven(i)) properties.add("even");
             else properties.add("odd");
 
@@ -171,6 +172,7 @@ public class Main {
                 if (isEven(i)) properties.add("even");
                 if (!isEven(i)) properties.add("odd");
                 if (isSunny(i)) properties.add("sunny");
+                if (isSquare(i)) properties.add("square");
                 if (properties.contains(value.toLowerCase())) {
                     printResult(properties, i);
                     count++;
@@ -184,22 +186,22 @@ public class Main {
         System.out.println();
     }
 
-    private static void properties(long start, long end, String value, String value2){
+    private static void properties(long start, long end, String first, String second){
         NumberProperty property = null;
         NumberProperty property2 = null;
-        value = value.toUpperCase();
-        value2 = value2.toUpperCase();
+        first = first.toUpperCase();
+        second = second.toUpperCase();
 
         for (NumberProperty prop : NumberProperty.values()) {
-            if (prop.name().equalsIgnoreCase(value)) {
+            if (prop.name().equalsIgnoreCase(first)) {
                 property = prop;
             }
-            if (prop.name().equalsIgnoreCase(value2)) {
+            if (prop.name().equalsIgnoreCase(second)) {
                 property2 = prop;
             }
         }
 
-        if (property != null || property2 == null) {
+        if (property != null && property2 != null) {
             long i = start;
             int count = 0;
             while (count != end){
@@ -212,7 +214,8 @@ public class Main {
                 if (isEven(i)) properties.add("even");
                 if (!isEven(i)) properties.add("odd");
                 if (isSunny(i)) properties.add("sunny");
-                if (properties.contains(value.toLowerCase())) {
+                if (isSquare(i)) properties.add("square");
+                if (properties.contains(first.toLowerCase()) && properties.contains(second.toLowerCase())) {
                     printResult(properties, i);
                     count++;
                 }
@@ -220,13 +223,13 @@ public class Main {
             }
         } else {
             if (property == null & property2 == null){
-                System.out.printf("The property [%s, %s] is wrong.%n", value, value2);
+                System.out.printf("The property [%s, %s] is wrong.%n", first, second);
                 System.out.println("Available properties: [BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, EVEN, ODD]");
             } else if (property == null) {
-                System.out.printf("The property [%s] is wrong.%n", value);
+                System.out.printf("The property [%s] is wrong.%n", first);
                 System.out.println("Available properties: [BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, EVEN, ODD]");
             } else if (property2 == null){
-                System.out.printf("The property [%s] is wrong.%n", value2);
+                System.out.printf("The property [%s] is wrong.%n", second);
                 System.out.println("Available properties: [BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, EVEN, ODD]");
             }
         }
@@ -243,6 +246,8 @@ public class Main {
         System.out.printf("%12s: %b%n", "gapful", isGapful(num));
         System.out.printf("%12s: %b%n", "spy", isSpy(num));
         System.out.printf("%12s: %b%n", "sunny", isSunny(num));
+        System.out.printf("%12s: %b%n", "square", isSquare(num));
+
         System.out.println();
     }
     private static boolean isGapful(long num) {
@@ -292,10 +297,14 @@ public class Main {
 
     }
     private static boolean isSunny(long number) {
-        return Math.sqrt(number + 1) == Math.floor(Math.sqrt(number + 1));
+        if (number <= 15) return false;
+        return isSquare((number + 1));
     }
 
-    // TODO: FUNÇÃO PARA RECONHECER SE UM NUMERO É QUADRADO
+    private static boolean isSquare(long number) {
+        if (number < 10) return false;
+        return Math.sqrt(number) == Math.floor(Math.sqrt(number));
+    }
 
     private static void instructions(){
         String menu = """
